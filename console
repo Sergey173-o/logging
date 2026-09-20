@@ -1,0 +1,430 @@
+## Запуск и проверка
+
+```bash
+cd logging-hw
+root@nfsc:~/pam-homework/logging-hw# cd logging-hw
+vagrant up
+bash: cd: logging-hw: No such file or directory
+Bringing machine 'web' up with 'virtualbox' provider...
+Bringing machine 'log' up with 'virtualbox' provider...
+==> web: Box 'bento/ubuntu-22.04' could not be found. Attempting to find and install...
+    web: Box Provider: virtualbox
+    web: Box Version: >= 0
+==> web: Loading metadata for box 'bento/ubuntu-22.04'
+    web: URL: https://vagrantcloud.com/api/v2/vagrant/bento/ubuntu-22.04
+==> web: Adding box 'bento/ubuntu-22.04' (v202510.26.0) for provider: virtualbox (amd64)
+    web: Downloading: https://vagrantcloud.com/bento/boxes/ubuntu-22.04/versions/202510.26.0/providers/virtualbox/amd64/vagrant.box
+==> web: Successfully added box 'bento/ubuntu-22.04' (v202510.26.0) for 'virtualbox (amd64)'!
+==> web: Importing base box 'bento/ubuntu-22.04'...
+==> web: Matching MAC address for NAT networking...
+==> web: Checking if box 'bento/ubuntu-22.04' version '202510.26.0' is up to date...
+==> web: Setting the name of the VM: logging-hw_web_1789910117434_5013
+==> web: Clearing any previously set network interfaces...
+==> web: Preparing network interfaces based on configuration...
+    web: Adapter 1: nat
+    web: Adapter 2: hostonly
+==> web: Forwarding ports...
+    web: 22 (guest) => 2222 (host) (adapter 1)
+==> web: Running 'pre-boot' VM customizations...
+==> web: Booting VM...
+==> web: Waiting for machine to boot. This may take a few minutes...
+    web: SSH address: 127.0.0.1:2222
+    web: SSH username: vagrant
+    web: SSH auth method: private key
+    web: Warning: Connection reset. Retrying...
+    web: Warning: Connection reset. Retrying...
+    web: Warning: Connection reset. Retrying...
+    web: Warning: Connection reset. Retrying...
+    web: Warning: Connection reset. Retrying...
+    web:
+    web: Vagrant insecure key detected. Vagrant will automatically replace
+    web: this with a newly generated keypair for better security.
+    web:
+    web: Inserting generated public key within guest...
+    web: Removing insecure key from the guest if it's present...
+    web: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> web: Machine booted and ready!
+==> web: Checking for guest additions in VM...
+    web: The guest additions on this VM do not match the installed version of
+    web: VirtualBox! In most cases this is fine, but in rare cases it can
+    web: prevent things such as shared folders from working properly. If you see
+    web: shared folder errors, please make sure the guest additions within the
+    web: virtual machine match the version of VirtualBox you have installed on
+    web: your host and reload your VM.
+    web:
+    web: Guest Additions Version: 7.2.4
+    web: VirtualBox Version: 7.0
+==> web: Setting hostname...
+==> web: Configuring and enabling network interfaces...
+==> web: Mounting shared folders...
+    web: /root/pam-homework/logging-hw => /vagrant
+==> log: Box 'bento/ubuntu-22.04' could not be found. Attempting to find and install...
+    log: Box Provider: virtualbox
+    log: Box Version: >= 0
+==> log: Loading metadata for box 'bento/ubuntu-22.04'
+    log: URL: https://vagrantcloud.com/api/v2/vagrant/bento/ubuntu-22.04
+==> log: Adding box 'bento/ubuntu-22.04' (v202510.26.0) for provider: virtualbox (amd64)
+==> log: Importing base box 'bento/ubuntu-22.04'...
+==> log: Matching MAC address for NAT networking...
+==> log: Checking if box 'bento/ubuntu-22.04' version '202510.26.0' is up to date...
+==> log: Setting the name of the VM: logging-hw_log_1789910596917_76780
+==> log: Fixed port collision for 22 => 2222. Now on port 2200.
+==> log: Clearing any previously set network interfaces...
+==> log: Preparing network interfaces based on configuration...
+    log: Adapter 1: nat
+    log: Adapter 2: hostonly
+==> log: Forwarding ports...
+    log: 22 (guest) => 2200 (host) (adapter 1)
+==> log: Running 'pre-boot' VM customizations...
+==> log: Booting VM...
+==> log: Waiting for machine to boot. This may take a few minutes...
+    log: SSH address: 127.0.0.1:2200
+    log: SSH username: vagrant
+    log: SSH auth method: private key
+    log: Warning: Connection reset. Retrying...
+    log: Warning: Remote connection disconnect. Retrying...
+    log: Warning: Connection reset. Retrying...
+    log: Warning: Connection reset. Retrying...
+    log: Warning: Connection reset. Retrying...
+    log: Warning: Connection reset. Retrying...
+    log: Warning: Connection reset. Retrying...
+    log:
+    log: Vagrant insecure key detected. Vagrant will automatically replace
+    log: this with a newly generated keypair for better security.
+    log:
+    log: Inserting generated public key within guest...
+    log: Removing insecure key from the guest if it's present...
+    log: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> log: Machine booted and ready!
+==> log: Checking for guest additions in VM...
+    log: The guest additions on this VM do not match the installed version of
+    log: VirtualBox! In most cases this is fine, but in rare cases it can
+    log: prevent things such as shared folders from working properly. If you see
+    log: shared folder errors, please make sure the guest additions within the
+    log: virtual machine match the version of VirtualBox you have installed on
+    log: your host and reload your VM.
+    log:
+    log: Guest Additions Version: 7.2.4
+    log: VirtualBox Version: 7.0
+==> log: Setting hostname...
+==> log: Configuring and enabling network interfaces...
+==> log: Mounting shared folders...
+    log: /root/pam-homework/logging-hw => /vagrant
+==> log: Running provisioner: ansible...
+    log: Running ansible-playbook...
+[WARNING]: Found both group and host with same name: log
+[WARNING]: Found both group and host with same name: web
+
+PLAY [Sync time (chrony) on all hosts] *****************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [log]
+ok: [web]
+
+TASK [install chrony] **********************************************************
+changed: [web]
+changed: [log]
+
+TASK [enable chrony] ***********************************************************
+ok: [web]
+ok: [log]
+
+PLAY [Configure central log server] ********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [log]
+
+TASK [log : ensure rsyslog is installed] ***************************************
+ok: [log]
+
+TASK [log : create log directory] **********************************************
+changed: [log]
+
+TASK [log : deploy central rsyslog config] *************************************
+changed: [log]
+
+TASK [log : open firewall for rsyslog (if ufw active)] *************************
+changed: [log] => (item=tcp)
+changed: [log] => (item=udp)
+
+RUNNING HANDLER [log : restart rsyslog] ****************************************
+changed: [log]
+
+PLAY [Configure web server (nginx + audit + log forwarding)] *******************
+
+TASK [Gathering Facts] *********************************************************
+ok: [web]
+
+TASK [web : install nginx, auditd, audisp-plugins, rsyslog] ********************
+changed: [web]
+
+TASK [web : set fact for log server IP] ****************************************
+ok: [web]
+
+TASK [web : insert logging directives into nginx.conf (http block)] ************
+changed: [web]
+
+TASK [web : verify nginx config syntax] ****************************************
+ok: [web]
+
+TASK [web : deploy audit rule for nginx config directory] **********************
+changed: [web]
+
+TASK [web : deploy audisp-syslog plugin config] ********************************
+changed: [web]
+
+TASK [web : forward local6 (audit) facility to remote log server] **************
+changed: [web]
+
+RUNNING HANDLER [web : restart nginx] ******************************************
+changed: [web]
+
+RUNNING HANDLER [web : restart auditd] *****************************************
+changed: [web]
+
+RUNNING HANDLER [web : restart rsyslog] ****************************************
+changed: [web]
+
+PLAY RECAP *********************************************************************
+log                        : ok=9    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+web                        : ok=14   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+root@nfsc:~/pam-homework/logging-hw#
+
+```
+
+### Проверка на `web`
+
+```bash
+root@nfsc:~/pam-homework/logging-hw# vagrant ssh web
+Welcome to Ubuntu 22.04.5 LTS (GNU/Linux 5.15.0-160-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Sun Sep 20 02:11:36 PM UTC 2026
+
+  System load:  0.09               Processes:             150
+  Usage of /:   16.0% of 30.34GB   Users logged in:       0
+  Memory usage: 17%                IPv4 address for eth0: 10.0.2.15
+  Swap usage:   0%
+
+
+This system is built by the Bento project by Chef Software
+More information can be found at https://github.com/chef/bento
+
+Use of this system is acceptance of the OS vendor EULA and License Agreements.
+Last login: Sun Sep 20 13:46:36 2026 from 192.168.56.1
+vagrant@web:~$ sudo systemctl status nginx auditd rsyslog
+● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sun 2026-09-20 13:46:25 UTC; 27min ago
+       Docs: man:nginx(8)
+    Process: 4053 ExecStartPre=/usr/sbin/nginx -t -q -g daemon on; master_process on; (code=exited, s>
+    Process: 4054 ExecStart=/usr/sbin/nginx -g daemon on; master_process on; (code=exited, status=0/S>
+   Main PID: 4055 (nginx)
+      Tasks: 3 (limit: 1585)
+     Memory: 3.3M
+        CPU: 995ms
+     CGroup: /system.slice/nginx.service
+             ├─4055 "nginx: master process /usr/sbin/nginx -g daemon on; master_process on;"
+             ├─4056 "nginx: worker process" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" >
+             └─4057 "nginx: worker process" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" >
+
+Sep 20 13:46:24 web systemd[1]: Starting A high performance web server and a reverse proxy server...
+Sep 20 13:46:25 web systemd[1]: Started A high performance web server and a reverse proxy server.
+
+● auditd.service - Security Auditing Service
+     Loaded: loaded (/lib/systemd/system/auditd.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sun 2026-09-20 13:46:34 UTC; 27min ago
+       Docs: man:auditd(8)
+             https://github.com/linux-audit/audit-documentation
+    Process: 4085 ExecStart=/sbin/auditd (code=exited, status=0/SUCCESS)
+    Process: 4091 ExecStartPost=/sbin/augenrules --load (code=exited, status=0/SUCCESS)
+lines 1-25
+vagrant@web:~$ ^C
+vagrant@web:~$ sudo nginx -t
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+vagrant@web:~$ curl http://localhost
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+vagrant@web:~$
+
+```
+
+critical-лог:
+
+```bash
+vagrant@web:~$ sudo mv /var/www/html/index.nginx-debian.html /var/www/
+vagrant@web:~$ curl http://localhost
+<html>
+<head><title>403 Forbidden</title></head>
+<body>
+<center><h1>403 Forbidden</h1></center>
+<hr><center>nginx/1.18.0 (Ubuntu)</center>
+</body>
+</html>
+vagrant@web:~$
+
+```
+
+событие аудита — изменить конфиг nginx:
+
+```bash
+vagrant@web:~$ sudo touch /etc/nginx/conf.d/test.conf
+vagrant@web:~$ sudo ausearch -k nginx_config | tail -20
+----
+time->Sun Sep 20 13:46:34 2026
+type=PROCTITLE msg=audit(1789911994.051:124): proctitle=2F7362696E2F617564697463746C002D52002F6574632F61756469742F61756469742E72756C6573
+type=SYSCALL msg=audit(1789911994.051:124): arch=c000003e syscall=44 success=yes exit=1080 a0=3 a1=7ffcd502c600 a2=438 a3=0 items=0 ppid=4091 pid=4105 auid=4294967295 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=(none) ses=4294967295 comm="auditctl" exe="/usr/sbin/auditctl" subj=unconfined key=(null)
+type=CONFIG_CHANGE msg=audit(1789911994.051:124): auid=4294967295 ses=4294967295 subj=unconfined op=add_rule key="nginx_config" list=4 res=1
+----
+time->Sun Sep 20 14:15:35 2026
+type=PROCTITLE msg=audit(1789913735.143:177): proctitle=746F756368002F6574632F6E67696E782F636F6E662E642F746573742E636F6E66
+type=PATH msg=audit(1789913735.143:177): item=1 name="/etc/nginx/conf.d/test.conf" inode=394361 dev=fd:00 mode=0100644 ouid=0 ogid=0 rdev=00:00 nametype=CREATE cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0
+type=PATH msg=audit(1789913735.143:177): item=0 name="/etc/nginx/conf.d/" inode=394440 dev=fd:00 mode=040755 ouid=0 ogid=0 rdev=00:00 nametype=PARENT cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0
+type=CWD msg=audit(1789913735.143:177): cwd="/home/vagrant"
+type=SYSCALL msg=audit(1789913735.143:177): arch=c000003e syscall=257 success=yes exit=3 a0=ffffff9c a1=7fff0d8f58ae a2=941 a3=1b6 items=2 ppid=4225 pid=4226 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts1 ses=7 comm="touch" exe="/usr/bin/touch" subj=unconfined key="nginx_config"
+vagrant@web:~$ exit
+logout
+root@nfsc:~/pam-homework/logging-hw#
+
+```
+
+### Проверка на `log`
+
+```bash
+root@nfsc:~/pam-homework/logging-hw# vagrant ssh log
+Welcome to Ubuntu 22.04.5 LTS (GNU/Linux 5.15.0-160-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Sun Sep 20 02:16:34 PM UTC 2026
+
+  System load:  0.27               Processes:             146
+  Usage of /:   16.5% of 30.34GB   Users logged in:       0
+  Memory usage: 19%                IPv4 address for eth0: 10.0.2.15
+  Swap usage:   0%
+
+
+This system is built by the Bento project by Chef Software
+More information can be found at https://github.com/chef/bento
+
+Use of this system is acceptance of the OS vendor EULA and License Agreements.
+Last login: Sun Sep 20 13:40:50 2026 from 192.168.56.1
+vagrant@log:~$ ls /var/log/rsyslog/web/
+audispd.log  nginx_access.log  nginx_error.log
+vagrant@log:~$ cat /var/log/rsyslog/web/nginx_access.log
+Sep 20 14:14:28 web nginx_access: 127.0.0.1 - - [20/Sep/2026:14:14:28 +0000] "GET / HTTP/1.1" 200 612 "-" "curl/7.81.0"
+Sep 20 14:15:11 web nginx_access: 127.0.0.1 - - [20/Sep/2026:14:15:11 +0000] "GET / HTTP/1.1" 403 162 "-" "curl/7.81.0"
+vagrant@log:~$ cat /var/log/rsyslog/web/nginx_error.log
+Sep 20 14:15:11 web nginx_error: 2026/09/20 14:15:11 [error] 4056#4056: *2 directory index of "/var/www/html/" is forbidden, client: 127.0.0.1, server: _, request: "GET / HTTP/1.1", host: "localhost"
+vagrant@log:~$ cat /var/log/rsyslog/web/audispd.log
+Sep 20 13:46:41 web audispd: type=SERVICE_STOP msg=audit(1789912000.975:133): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg='unit=rsyslog comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success' UID="root" AUID="unset"
+Sep 20 13:46:41 web audispd: type=SERVICE_START msg=audit(1789912001.307:134): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg='unit=rsyslog comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success' UID="root" AUID="unset"
+Sep 20 13:46:42 web audispd: type=USER_END msg=audit(1789912001.975:135): pid=4132 uid=1000 auid=1000 ses=6 subj=unconfined msg='op=PAM:session_close grantors=pam_limits,pam_env,pam_env,pam_permit,pam_umask,pam_unix acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 13:46:42 web audispd: type=CRED_DISP msg=audit(1789912001.975:136): pid=4132 uid=1000 auid=1000 ses=6 subj=unconfined msg='op=PAM:setcred grantors=pam_permit acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 13:46:43 web audispd: type=USER_END msg=audit(1789912003.091:137): pid=1233 uid=0 auid=1000 ses=4 subj=unconfined msg='op=PAM:session_close grantors=pam_selinux,pam_loginuid,pam_keyinit,pam_permit,pam_umask,pam_unix,pam_systemd,pam_mail,pam_limits,pam_env,pam_env,pam_selinux acct="vagrant" exe="/usr/sbin/sshd" hostname=10.0.2.2 addr=10.0.2.2 terminal=ssh res=success' UID="root" AUID="vagrant"
+Sep 20 13:46:43 web audispd: type=CRED_DISP msg=audit(1789912003.235:138): pid=1233 uid=0 auid=1000 ses=4 subj=unconfined msg='op=PAM:setcred grantors=pam_permit acct="vagrant" exe="/usr/sbin/sshd" hostname=10.0.2.2 addr=10.0.2.2 terminal=ssh res=success' UID="root" AUID="vagrant"
+Sep 20 13:47:42 web audispd: type=USER_END msg=audit(1789912062.647:139): pid=2668 uid=0 auid=1000 ses=6 subj=unconfined msg='op=PAM:session_close grantors=pam_selinux,pam_loginuid,pam_keyinit,pam_permit,pam_umask,pam_unix,pam_systemd,pam_mail,pam_limits,pam_env,pam_env,pam_selinux acct="vagrant" exe="/usr/sbin/sshd" hostname=192.168.56.1 addr=192.168.56.1 terminal=ssh res=success' UID="root" AUID="vagrant"
+Sep 20 13:47:42 web audispd: type=CRED_DISP msg=audit(1789912062.647:140): pid=2668 uid=0 auid=1000 ses=6 subj=unconfined msg='op=PAM:setcred grantors=pam_permit acct="vagrant" exe="/usr/sbin/sshd" hostname=192.168.56.1 addr=192.168.56.1 terminal=ssh res=success' UID="root" AUID="vagrant"
+Sep 20 13:47:54 web audispd: type=SERVICE_STOP msg=audit(1789912074.539:141): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg='unit=user@1000 comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success' UID="root" AUID="unset"
+Sep 20 13:47:54 web audispd: type=SERVICE_STOP msg=audit(1789912074.891:142): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg='unit=user-runtime-dir@1000 comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success' UID="root" AUID="unset"
+Sep 20 14:11:32 web audispd: type=USER_ACCT msg=audit(1789913492.452:143): pid=4159 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg='op=PAM:accounting grantors=pam_permit acct="vagrant" exe="/usr/sbin/sshd" hostname=10.0.2.2 addr=10.0.2.2 terminal=ssh res=success' UID="root" AUID="unset"
+Sep 20 14:11:32 web audispd: type=CRED_ACQ msg=audit(1789913492.548:144): pid=4159 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg='op=PAM:setcred grantors=pam_permit,pam_cap acct="vagrant" exe="/usr/sbin/sshd" hostname=10.0.2.2 addr=10.0.2.2 terminal=ssh res=success' UID="root" AUID="unset"
+Sep 20 14:11:32 web audispd: type=LOGIN msg=audit(1789913492.548:145): pid=4159 uid=0 subj=unconfined old-auid=4294967295 auid=1000 tty=(none) old-ses=4294967295 ses=7 res=1 UID="root" OLD-AUID="unset" AUID="vagrant"
+Sep 20 14:11:32 web audispd: type=SYSCALL msg=audit(1789913492.548:145): arch=c000003e syscall=1 success=yes exit=4 a0=3 a1=7ffcb25d8930 a2=4 a3=0 items=0 ppid=781 pid=4159 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=(none) ses=7 comm="sshd" exe="/usr/sbin/sshd" subj=unconfined key=(null) ARCH=x86_64 SYSCALL=write AUID="vagrant" UID="root" GID="root" EUID="root" SUID="root" FSUID="root" EGID="root" SGID="root" FSGID="root"
+Sep 20 14:11:32 web audispd: type=PROCTITLE msg=audit(1789913492.548:145): proctitle=737368643A2076616772616E74205B707269765D
+Sep 20 14:11:32 web audispd: type=EOE msg=audit(1789913492.548:145):
+Sep 20 14:11:33 web audispd: type=SERVICE_START msg=audit(1789913493.152:146): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg='unit=user-runtime-dir@1000 comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success' UID="root" AUID="unset"
+Sep 20 14:11:33 web audispd: type=USER_ACCT msg=audit(1789913493.256:147): pid=4162 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg='op=PAM:accounting grantors=pam_permit acct="vagrant" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success' UID="root" AUID="unset"
+Sep 20 14:11:33 web audispd: type=CRED_ACQ msg=audit(1789913493.428:148): pid=4162 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg='op=PAM:setcred grantors=pam_permit,pam_cap acct="vagrant" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success' UID="root" AUID="unset"
+Sep 20 14:11:33 web audispd: type=LOGIN msg=audit(1789913493.436:149): pid=4162 uid=0 subj=unconfined old-auid=4294967295 auid=1000 tty=(none) old-ses=4294967295 ses=8 res=1 UID="root" OLD-AUID="unset" AUID="vagrant"
+Sep 20 14:11:33 web audispd: type=SYSCALL msg=audit(1789913493.436:149): arch=c000003e syscall=1 success=yes exit=4 a0=7 a1=7ffc8ffdd1a0 a2=4 a3=0 items=0 ppid=1 pid=4162 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=(none) ses=8 comm="(systemd)" exe="/usr/lib/systemd/systemd" subj=unconfined key=(null) ARCH=x86_64 SYSCALL=write AUID="vagrant" UID="root" GID="root" EUID="root" SUID="root" FSUID="root" EGID="root" SGID="root" FSGID="root"
+Sep 20 14:11:33 web audispd: type=PROCTITLE msg=audit(1789913493.436:149): proctitle="(systemd)"
+Sep 20 14:11:33 web audispd: type=EOE msg=audit(1789913493.436:149):
+Sep 20 14:11:33 web audispd: type=USER_START msg=audit(1789913493.488:150): pid=4162 uid=0 auid=1000 ses=8 subj=unconfined msg='op=PAM:session_open grantors=pam_selinux,pam_selinux,pam_loginuid,pam_limits,pam_permit,pam_umask,pam_unix,pam_keyinit,pam_systemd acct="vagrant" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success' UID="root" AUID="vagrant"
+Sep 20 14:11:35 web audispd: type=SERVICE_START msg=audit(1789913495.372:151): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg='unit=user@1000 comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success' UID="root" AUID="unset"
+Sep 20 14:11:39 web audispd: type=USER_START msg=audit(1789913499.447:152): pid=4159 uid=0 auid=1000 ses=7 subj=unconfined msg='op=PAM:session_open grantors=pam_selinux,pam_loginuid,pam_keyinit,pam_permit,pam_umask,pam_unix,pam_systemd,pam_mail,pam_limits,pam_env,pam_env,pam_selinux acct="vagrant" exe="/usr/sbin/sshd" hostname=10.0.2.2 addr=10.0.2.2 terminal=ssh res=success' UID="root" AUID="vagrant"
+Sep 20 14:11:39 web audispd: type=CRED_ACQ msg=audit(1789913499.543:153): pid=4199 uid=0 auid=1000 ses=7 subj=unconfined msg='op=PAM:setcred grantors=pam_permit,pam_cap acct="vagrant" exe="/usr/sbin/sshd" hostname=10.0.2.2 addr=10.0.2.2 terminal=ssh res=success' UID="root" AUID="vagrant"
+Sep 20 14:11:39 web audispd: type=USER_LOGIN msg=audit(1789913499.611:154): pid=4159 uid=0 auid=1000 ses=7 subj=unconfined msg='op=login id=1000 exe="/usr/sbin/sshd" hostname=10.0.2.2 addr=10.0.2.2 terminal=/dev/pts/0 res=success' UID="root" AUID="vagrant" ID="vagrant"
+Sep 20 14:14:19 web audispd: type=USER_ACCT msg=audit(1789913659.180:155): pid=4211 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:accounting grantors=pam_permit acct="vagrant" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:14:19 web audispd: type=USER_CMD msg=audit(1789913659.180:156): pid=4211 uid=1000 auid=1000 ses=7 subj=unconfined msg='cwd="/home/vagrant" cmd=73797374656D63746C20737461747573206E67696E782061756469746420727379736C6F67 exe="/usr/bin/sudo" terminal=pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:14:19 web audispd: type=CRED_REFR msg=audit(1789913659.432:157): pid=4211 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:setcred grantors=pam_permit,pam_cap acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:14:19 web audispd: type=USER_START msg=audit(1789913659.452:158): pid=4211 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:session_open grantors=pam_limits,pam_env,pam_env,pam_permit,pam_umask,pam_unix acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:14:23 web audispd: type=USER_END msg=audit(1789913662.955:159): pid=4211 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:session_close grantors=pam_limits,pam_env,pam_env,pam_permit,pam_umask,pam_unix acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:14:23 web audispd: type=CRED_DISP msg=audit(1789913662.982:160): pid=4211 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:setcred grantors=pam_permit acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:14:25 web audispd: type=USER_ACCT msg=audit(1789913665.233:161): pid=4216 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:accounting grantors=pam_permit acct="vagrant" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:14:25 web audispd: type=USER_CMD msg=audit(1789913665.273:162): pid=4216 uid=1000 auid=1000 ses=7 subj=unconfined msg='cwd="/home/vagrant" cmd=6E67696E78202D74 exe="/usr/bin/sudo" terminal=pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:14:25 web audispd: type=CRED_REFR msg=audit(1789913665.305:163): pid=4216 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:setcred grantors=pam_permit,pam_cap acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:14:25 web audispd: type=USER_START msg=audit(1789913665.313:164): pid=4216 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:session_open grantors=pam_limits,pam_env,pam_env,pam_permit,pam_umask,pam_unix acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:14:25 web audispd: type=USER_END msg=audit(1789913665.753:165): pid=4216 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:session_close grantors=pam_limits,pam_env,pam_env,pam_permit,pam_umask,pam_unix acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:14:25 web audispd: type=CRED_DISP msg=audit(1789913665.753:166): pid=4216 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:setcred grantors=pam_permit acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:07 web audispd: type=USER_ACCT msg=audit(1789913707.668:167): pid=4220 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:accounting grantors=pam_permit acct="vagrant" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:08 web audispd: type=USER_CMD msg=audit(1789913707.668:168): pid=4220 uid=1000 auid=1000 ses=7 subj=unconfined msg='cwd="/home/vagrant" cmd=6D76202F7661722F7777772F68746D6C2F696E6465782E6E67696E782D64656269616E2E68746D6C202F7661722F7777772F exe="/usr/bin/sudo" terminal=pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:08 web audispd: type=CRED_REFR msg=audit(1789913707.941:169): pid=4220 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:setcred grantors=pam_permit,pam_cap acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:08 web audispd: type=USER_START msg=audit(1789913707.993:170): pid=4220 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:session_open grantors=pam_limits,pam_env,pam_env,pam_permit,pam_umask,pam_unix acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:08 web audispd: type=USER_END msg=audit(1789913708.441:171): pid=4220 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:session_close grantors=pam_limits,pam_env,pam_env,pam_permit,pam_umask,pam_unix acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:08 web audispd: type=CRED_DISP msg=audit(1789913708.441:172): pid=4220 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:setcred grantors=pam_permit acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:35 web audispd: type=USER_ACCT msg=audit(1789913734.732:173): pid=4224 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:accounting grantors=pam_permit acct="vagrant" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:35 web audispd: type=USER_CMD msg=audit(1789913734.732:174): pid=4224 uid=1000 auid=1000 ses=7 subj=unconfined msg='cwd="/home/vagrant" cmd=746F756368202F6574632F6E67696E782F636F6E662E642F746573742E636F6E66 exe="/usr/bin/sudo" terminal=pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:35 web audispd: type=CRED_REFR msg=audit(1789913734.808:175): pid=4224 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:setcred grantors=pam_permit,pam_cap acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:35 web audispd: type=USER_START msg=audit(1789913734.808:176): pid=4224 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:session_open grantors=pam_limits,pam_env,pam_env,pam_permit,pam_umask,pam_unix acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:35 web audispd: type=SYSCALL msg=audit(1789913735.143:177): arch=c000003e syscall=257 success=yes exit=3 a0=ffffff9c a1=7fff0d8f58ae a2=941 a3=1b6 items=2 ppid=4225 pid=4226 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts1 ses=7 comm="touch" exe="/usr/bin/touch" subj=unconfined key="nginx_config" ARCH=x86_64 SYSCALL=openat AUID="vagrant" UID="root" GID="root" EUID="root" SUID="root" FSUID="root" EGID="root" SGID="root" FSGID="root"
+Sep 20 14:15:35 web audispd: type=CWD msg=audit(1789913735.143:177): cwd="/home/vagrant"
+Sep 20 14:15:35 web audispd: type=PATH msg=audit(1789913735.143:177): item=0 name="/etc/nginx/conf.d/" inode=394440 dev=fd:00 mode=040755 ouid=0 ogid=0 rdev=00:00 nametype=PARENT cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0 OUID="root" OGID="root"
+Sep 20 14:15:35 web audispd: type=PATH msg=audit(1789913735.143:177): item=1 name="/etc/nginx/conf.d/test.conf" inode=394361 dev=fd:00 mode=0100644 ouid=0 ogid=0 rdev=00:00 nametype=CREATE cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0 OUID="root" OGID="root"
+Sep 20 14:15:35 web audispd: type=PROCTITLE msg=audit(1789913735.143:177): proctitle=746F756368002F6574632F6E67696E782F636F6E662E642F746573742E636F6E66
+Sep 20 14:15:35 web audispd: type=EOE msg=audit(1789913735.143:177):
+Sep 20 14:15:35 web audispd: type=USER_END msg=audit(1789913735.259:178): pid=4224 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:session_close grantors=pam_limits,pam_env,pam_env,pam_permit,pam_umask,pam_unix acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:35 web audispd: type=CRED_DISP msg=audit(1789913735.259:179): pid=4224 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:setcred grantors=pam_permit acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:40 web audispd: type=USER_ACCT msg=audit(1789913740.293:180): pid=4227 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:accounting grantors=pam_permit acct="vagrant" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:40 web audispd: type=USER_CMD msg=audit(1789913740.337:181): pid=4227 uid=1000 auid=1000 ses=7 subj=unconfined msg='cwd="/home/vagrant" cmd=6175736561726368202D6B206E67696E785F636F6E666967 exe="/usr/bin/sudo" terminal=pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:40 web audispd: type=CRED_REFR msg=audit(1789913740.337:182): pid=4227 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:setcred grantors=pam_permit,pam_cap acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:40 web audispd: type=USER_START msg=audit(1789913740.401:183): pid=4227 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:session_open grantors=pam_limits,pam_env,pam_env,pam_permit,pam_umask,pam_unix acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:40 web audispd: type=USER_END msg=audit(1789913740.521:184): pid=4227 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:session_close grantors=pam_limits,pam_env,pam_env,pam_permit,pam_umask,pam_unix acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:40 web audispd: type=CRED_DISP msg=audit(1789913740.521:185): pid=4227 uid=1000 auid=1000 ses=7 subj=unconfined msg='op=PAM:setcred grantors=pam_permit acct="root" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/0 res=success' UID="vagrant" AUID="vagrant"
+Sep 20 14:15:55 web audispd: type=USER_END msg=audit(1789913755.605:186): pid=4159 uid=0 auid=1000 ses=7 subj=unconfined msg='op=PAM:session_close grantors=pam_selinux,pam_loginuid,pam_keyinit,pam_permit,pam_umask,pam_unix,pam_systemd,pam_mail,pam_limits,pam_env,pam_env,pam_selinux acct="vagrant" exe="/usr/sbin/sshd" hostname=10.0.2.2 addr=10.0.2.2 terminal=ssh res=success' UID="root" AUID="vagrant"
+Sep 20 14:15:55 web audispd: type=CRED_DISP msg=audit(1789913755.609:187): pid=4159 uid=0 auid=1000 ses=7 subj=unconfined msg='op=PAM:setcred grantors=pam_permit acct="vagrant" exe="/usr/sbin/sshd" hostname=10.0.2.2 addr=10.0.2.2 terminal=ssh res=success' UID="root" AUID="vagrant"
+Sep 20 14:16:07 web audispd: type=SERVICE_STOP msg=audit(1789913767.701:188): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg='unit=user@1000 comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success' UID="root" AUID="unset"
+Sep 20 14:16:08 web audispd: type=SERVICE_STOP msg=audit(1789913768.093:189): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg='unit=user-runtime-dir@1000 comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success' UID="root" AUID="unset"
+Sep 20 14:17:02 web audispd: type=USER_ACCT msg=audit(1789913821.881:190): pid=4235 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg='op=PAM:accounting grantors=pam_permit acct="root" exe="/usr/sbin/cron" hostname=? addr=? terminal=cron res=success' UID="root" AUID="unset"
+Sep 20 14:17:02 web audispd: type=CRED_ACQ msg=audit(1789913822.129:191): pid=4235 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg='op=PAM:setcred grantors=pam_permit,pam_cap acct="root" exe="/usr/sbin/cron" hostname=? addr=? terminal=cron res=success' UID="root" AUID="unset"
+Sep 20 14:17:02 web audispd: type=LOGIN msg=audit(1789913822.137:192): pid=4235 uid=0 subj=unconfined old-auid=4294967295 auid=0 tty=(none) old-ses=4294967295 ses=9 res=1 UID="root" OLD-AUID="unset" AUID="root"
+Sep 20 14:17:02 web audispd: type=SYSCALL msg=audit(1789913822.137:192): arch=c000003e syscall=1 success=yes exit=1 a0=7 a1=7ffe5994fa00 a2=1 a3=0 items=0 ppid=646 pid=4235 auid=0 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=(none) ses=9 comm="cron" exe="/usr/sbin/cron" subj=unconfined key=(null) ARCH=x86_64 SYSCALL=write AUID="root" UID="root" GID="root" EUID="root" SUID="root" FSUID="root" EGID="root" SGID="root" FSGID="root"
+Sep 20 14:17:02 web audispd: type=PROCTITLE msg=audit(1789913822.137:192): proctitle=2F7573722F7362696E2F43524F4E002D66002D50
+Sep 20 14:17:02 web audispd: type=EOE msg=audit(1789913822.137:192):
+Sep 20 14:17:02 web audispd: type=USER_START msg=audit(1789913822.217:193): pid=4235 uid=0 auid=0 ses=9 subj=unconfined msg='op=PAM:session_open grantors=pam_loginuid,pam_env,pam_env,pam_permit,pam_umask,pam_unix,pam_limits acct="root" exe="/usr/sbin/cron" hostname=? addr=? terminal=cron res=success' UID="root" AUID="root"
+Sep 20 14:17:02 web audispd: type=CRED_DISP msg=audit(1789913822.349:194): pid=4235 uid=0 auid=0 ses=9 subj=unconfined msg='op=PAM:setcred grantors=pam_permit acct="root" exe="/usr/sbin/cron" hostname=? addr=? terminal=cron res=success' UID="root" AUID="root"
+Sep 20 14:17:02 web audispd: type=USER_END msg=audit(1789913822.365:195): pid=4235 uid=0 auid=0 ses=9 subj=unconfined msg='op=PAM:session_close grantors=pam_loginuid,pam_env,pam_env,pam_permit,pam_umask,pam_unix,pam_limits acct="root" exe="/usr/sbin/cron" hostname=? addr=? terminal=cron res=success' UID="root" AUID="root"
+vagrant@log:~$
+ 
+```
+
