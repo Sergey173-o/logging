@@ -1,0 +1,30 @@
+---
+- name: ensure rsyslog is installed
+  apt:
+    name: rsyslog
+    state: present
+    update_cache: yes
+
+- name: create log directory
+  file:
+    path: /var/log/rsyslog
+    state: directory
+    owner: syslog
+    group: adm
+    mode: "0755"
+
+- name: deploy central rsyslog config
+  template:
+    src: rsyslog-central.conf.j2
+    dest: /etc/rsyslog.d/10-central.conf
+  notify: restart rsyslog
+
+- name: open firewall for rsyslog (if ufw active)
+  ufw:
+    rule: allow
+    port: "514"
+    proto: "{{ item }}"
+  loop:
+    - tcp
+    - udp
+  ignore_errors: true

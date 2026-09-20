@@ -1,0 +1,4 @@
+# Managed by Ansible - nginx logging: critical local+remote, access remote-only
+error_log  /var/log/nginx/error.log;
+error_log  syslog:server={{ log_server_ip }}:514,tag=nginx_error;
+access_log syslog:server={{ log_server_ip }}:514,tag=nginx_access,severity=info combined;

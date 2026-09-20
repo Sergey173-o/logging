@@ -1,0 +1,27 @@
+---
+- name: Sync time (chrony) on all hosts
+  hosts: all
+  become: true
+  tasks:
+    - name: install chrony
+      apt:
+        name: chrony
+        state: present
+        update_cache: yes
+    - name: enable chrony
+      systemd:
+        name: chrony
+        state: started
+        enabled: yes
+
+- name: Configure central log server
+  hosts: log
+  become: true
+  roles:
+    - log
+
+- name: Configure web server (nginx + audit + log forwarding)
+  hosts: web
+  become: true
+  roles:
+    - web

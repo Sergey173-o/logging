@@ -1,0 +1,45 @@
+---
+- name: install nginx, auditd, audisp-plugins, rsyslog
+  apt:
+    name:
+      - nginx
+      - auditd
+      - audispd-plugins
+      - rsyslog
+    state: present
+    update_cache: yes
+
+- name: set fact for log server IP
+  set_fact:
+    log_server_ip: "192.168.56.15"
+
+- name: insert logging directives into nginx.conf (http block)
+  blockinfile:
+    path: /etc/nginx/nginx.conf
+    insertafter: "http {"
+    marker: "# {mark} ANSIBLE MANAGED LOGGING BLOCK"
+    block: "{{ lookup('template', 'nginx-logging.conf.j2') }}"
+  notify: restart nginx
+
+- name: verify nginx config syntax
+  command: nginx -t
+  changed_when: false
+
+- name: deploy audit rule for nginx config directory
+  template:
+    src: audit-nginx.rules.j2
+    dest: /etc/audit/rules.d/nginx.rules
+  notify: restart auditd
+
+- name: deploy audisp-syslog plugin config
+  template:
+    src: audisp-syslog.conf.j2
+    dest: /etc/audit/plugins.d/syslog.conf
+  notify: restart auditd
+
+- name: forward local6 (audit) facility to remote log server
+  lineinfile:
+    path: /etc/rsyslog.d/20-audit-forward.conf
+    create: yes
+    line: "local6.*    @@{{ log_server_ip }}:514"
+  notify: restart rsyslog
